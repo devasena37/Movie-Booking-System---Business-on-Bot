@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Showtimes</title>
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 36px;
+        }
+
+        label {
+            font-size: 20px;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        select {
+            font-size: 18px;
+            padding: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        select:hover {
+            background-color: #0056b3;
+        }
+
+        #showtimes {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #007BFF;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .seat-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            margin: 10px;
+            background-color: #ccc;
+            cursor: pointer;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .seat.selected {
+            background-color: #007BFF;
+            color: #fff;
+            border: 2px solid #007BFF;
+            transform: scale(1.1);
+        }
+
+        #selected-seats {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .selected-seat {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Showtimes</h1>
+
+    <div style="text-align: center;">
+        <label for="movie-select">Select a Movie:</label>
+        <select id="movie-select">
+            <option value="inception">Inception</option>
+            <option value="toystory">Toy Story</option>
+        </select>
+    </div>
+
+    <div id="showtimes">
+        <div id="inception-showtimes" style="display: none;">
+            <h2>Showtimes for Inception</h2>
+            <ul>
+                <li>Time: 10:00 AM</li>
+                <li>Seats Available: 5</li>
+            </ul>
+            <ul>
+                <li>Time: 2:00 PM</li>
+                <li>Seats Available: 10</li>
+            </ul>
+            <ul>
+                <li>Time: 6:00 PM</li>
+                <li>Seats Available: 3</li>
+            </ul>
+        </div>
+
+        <!-- Showtimes for Toy Story (Initially hidden) -->
+        <div id="toystory-showtimes" style="display: none;">
+            <h2>Showtimes for Toy Story</h2>
+            <!-- Placeholder for showtimes -->
+            <ul>
+                <li>Time: 11:00 AM</li>
+                <li>Seats Available: 7</li>
+            </ul>
+            <ul>
+                <li>Time: 3:00 PM</li>
+                <li>Seats Available: 8</li>
+            </ul>
+            <ul>
+                <li>Time: 7:00 PM</li>
+                <li>Seats Available: 2</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="seat-container">
+        <div class="seat">1</div>
+        <div class="seat">2</div>
+        <div class="seat">3</div>
+    </div>
+
+    <div id="selected-seats">
+        <h2>Selected Seats:</h2>
+    </div>
+
+    <script>
+        const movieSelect = document.getElementById('movie-select');
+        const showtimes = document.getElementById('showtimes');
+        const seatContainer = document.querySelector('.seat-container');
+        const selectedSeats = document.getElementById('selected-seats');
+        let selectedSeatCount = 0;
+
+        movieSelect.addEventListener('change', function () {
+            // Hide all movie showtimes
+            const allMovieShowtimes = document.querySelectorAll('#showtimes > div');
+            allMovieShowtimes.forEach((showtime) => {
+                showtime.style.display = 'none';
+            });
+
+            const selectedMovieId = this.value;
+            const selectedMovieShowtimes = document.getElementById(`${selectedMovieId}-showtimes`);
+            selectedMovieShowtimes.style.display = 'block';
+
+            selectedSeatCount = 0;
+            selectedSeats.innerHTML = '<h2>Selected Seats:</h2>';
+
+            seatContainer.innerHTML = '';
+            const totalSeats = 50; // Adjust the number of seats as needed
+            for (let seatNumber = 1; seatNumber <= totalSeats; seatNumber++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.textContent = seatNumber;
+                seat.addEventListener('click', toggleSeatSelection);
+                seatContainer.appendChild(seat);
+            }
+        });
+
+        function toggleSeatSelection(event) {
+            const target = event.target;
+            if (target.classList.contains('seat')) {
+                if (target.classList.contains('selected')) {
+                    target.classList.remove('selected');
+                    selectedSeatCount--;
+                    const seatText = target.textContent;
+                    const selectedSeatText = selectedSeats.innerHTML;
+                    selectedSeats.innerHTML = selectedSeatText.replace(`<span class="seat">${seatText}</span>`, '');
+                } else if (selectedSeatCount < 10) {
+                    target.classList.add('selected');
+                    selectedSeatCount++;
+                    selectedSeats.innerHTML += `<span class="selected-seat">${target.textContent}</span>`;
+                } else {
+                    alert('You can select a maximum of 10 seats.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

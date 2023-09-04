@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('F:\BOB\web pages\image_bg.webp'); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #navigation {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        h3 {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+
+        /* Additional CSS styling can be added as needed */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Movie Database</h1>
+    </header>
+    <main>
+        <div id="navigation">
+            <button onclick="showAllMovies()">All Movies</button>
+            <button onclick="showMoviesByYear()">Movies by Release Year</button>
+        </div>
+
+        <!-- Content to display all movies -->
+        <div id="all-movies">
+            <table>
+                <tr>
+                    <th>Movie Name</th>
+                    <th>Theatre Name</th>
+                    <th>Theatre Location</th>
+                    <th>Release Date</th>
+                </tr>
+                {% for movie in movies %}
+                <tr>
+                    <td>{{ movie.movie_name }}</td>
+                    <td>{{ movie.theatre_name }}</td>
+                    <td>{{ movie.theatre_location }}</td>
+                    <td>{{ movie.release_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Content to display movies by release year (initially hidden) -->
+        <div id="movies-by-year" style="display: none;">
+            <h2>Movies Categorized by Release Year</h2>
+            {% for year, year_movies in movies_by_year.items() %}
+            <h3>{{ year }}</h3>
+            <table>
+                <tr>
+                    <th>Movie Name</th>
+                    <th>Theatre Name</th>
+                    <th>Theatre Location</th>
+                    <th>Release Date</th>
+                </tr>
+                {% for movie in year_movies %}
+                <tr>
+                    <td>{{ movie.movie_name }}</td>
+                    <td>{{ movie.theatre_name }}</td>
+                    <td>{{ movie.theatre_location }}</td>
+                    <td>{{ movie.release_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script>
+        function showAllMovies() {
+            document.getElementById('all-movies').style.display = 'block';
+            document.getElementById('movies-by-year').style.display = 'none';
+        }
+
+        function showMoviesByYear() {
+            document.getElementById('all-movies').style.display = 'none';
+            document.getElementById('movies-by-year').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

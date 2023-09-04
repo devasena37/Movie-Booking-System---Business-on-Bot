@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Showtimes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 36px;
+        }
+
+        label {
+            font-size: 20px;
+            margin-right: 10px;
+            color: #007BFF;
+        }
+
+        select {
+            font-size: 18px;
+            padding: 10px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+        }
+
+        #showtimes {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #007BFF;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .theater-location {
+            font-weight: bold;
+        }
+
+        /* Add more styles as needed */
+    </style>
+</head>
+<body>
+    <h1>Movie Showtimes</h1>
+
+    <!-- Movie Selection -->
+    <div style="text-align: center;">
+        <label for="movie-select">Select a Movie:</label>
+        <select id="movie-select">
+            <option value="inception">Inception</option>
+            <option value="toystory">Toy Story</option>
+            <!-- Add more movie options as needed -->
+        </select>
+    </div>
+
+    <!-- Showtimes Display -->
+    <div id="showtimes">
+        <!-- Showtimes for Inception (Initially hidden) -->
+        <div id="inception-showtimes" style="display: none;">
+            <h2>Showtimes for Inception</h2>
+            <ul>
+                <li>Date: Today</li>
+                <li>Time: 10:00 AM</li>
+                <li class="theater-location">Theater Location: Westwood</li>
+            </ul>
+            <ul>
+                <li>Date: Today</li>
+                <li>Time: 2:00 PM</li>
+                <li class="theater-location">Theater Location: Downtown Theater</li>
+            </ul>
+            <ul>
+                <li>Date: Today</li>
+                <li>Time: 4:00 PM</li>
+                <li class="theater-location">Theater Location: Valleyview</li>
+            </ul>
+            <!-- Add more showtimes and details for Inception as needed -->
+        </div>
+
+        <!-- Showtimes for Toy Story (Initially hidden) -->
+        <div id="toystory-showtimes" style="display: none;">
+            <h2>Showtimes for Toy Story</h2>
+            <ul>
+                <li>Date: Today</li>
+                <li>Time: 6:00 PM</li>
+                <li class="theater-location">Theater Location: Sunnyvale</li>
+            </ul>
+            <ul>
+                <li>Date: Today</li>
+                <li>Time: 4:00 PM</li>
+                <li class="theater-location">Theater Location: Valleyview</li>
+            </ul>
+            <ul>
+                <li>Date: Today</li>
+                <li>Time: 10:00 PM</li>
+                <li class="theater-location">Theater Location: Uptown Cinema</li>
+            </ul>
+            <!-- Add more showtimes and details for Toy Story as needed -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to show/hide showtimes based on movie selection
+        const movieSelect = document.getElementById('movie-select');
+        const showtimes = document.getElementById('showtimes');
+
+        movieSelect.addEventListener('change', function () {
+            // Hide all movie showtimes
+            const allMovieShowtimes = document.querySelectorAll('#showtimes > div');
+            allMovieShowtimes.forEach((showtime) => {
+                showtime.style.display = 'none';
+            });
+
+            // Show the selected movie's showtimes
+            const selectedMovieId = this.value;
+            const selectedMovieShowtimes = document.getElementById(`${selectedMovieId}-showtimes`);
+            selectedMovieShowtimes.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
